@@ -20,16 +20,6 @@
             </mat-form-field>
 
             <mat-form-field>
-              <mat-label>Categoria</mat-label>
-              <mat-select formControlName="category">
-                <mat-option value="">Todas as categorias</mat-option>
-                <mat-option *ngFor="let category of categories" [value]="category">
-                  {{ category }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-
-            <mat-form-field>
               <mat-label>Cidade</mat-label>
               <input matInput formControlName="city" placeholder="Ex: São Paulo">
             </mat-form-field>
