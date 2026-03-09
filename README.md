@@ -2,11 +2,11 @@
 
 **PROJETO INTEGRADOR V: ANÁLISE DE SOLUÇÕES INTEGRADAS PARA ORGANIZAÇÕES**
 
-Uma plataforma web que conecta doadores, instituições sociais e pessoas em situação de vulnerabilidade para facilitar a doação de itens pessoais de forma local, prática e transparente.
+Uma plataforma web que conecta doadores, instituições sociais e pessoas em situação de vulnerabilidade para facilitar a doação de alimentos de forma local, prática e transparente.
 
 ## 🎯 Sobre o Projeto
 
-A plataforma visa otimizar o processo de doações, garantindo que os itens encontrem as pessoas que mais precisam deles. Através da conexão direta entre doadores e beneficiários, o projeto promove:
+A plataforma visa otimizar o processo de doações, garantindo que os alimentos encontrem as pessoas que mais precisam deles. Através da conexão direta entre doadores e beneficiários, o projeto promove:
 
 - **Impacto direto**: Doações chegam a quem realmente precisa
 - **Comunidade local**: Foco em proximidade geográfica para facilitar entregas
