@@ -1,7 +1,9 @@
 package com.donation.api.dto;
 
 import com.donation.api.entity.Donation;
+import com.donation.api.entity.enums.FoodCategory;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class DonationResponse {
@@ -9,9 +11,11 @@ public class DonationResponse {
     private Long id;
     private String title;
     private String description;
-    private String category;
-    private String condition;
+    private FoodCategory category;
     private Integer quantity;
+    private LocalDate expirationDate;
+    private Boolean perishable;
+    private String storageInstructions;
     private String location;
     private String city;
     private String state;
@@ -51,20 +55,36 @@ public class DonationResponse {
         this.description = description;
     }
     
-    public String getCategory() {
+    public FoodCategory getCategory() {
         return category;
     }
     
-    public void setCategory(String category) {
+    public void setCategory(FoodCategory category) {
         this.category = category;
     }
-    
-    public String getCondition() {
-        return condition;
+
+    public LocalDate getExpirationDate() {
+        return expirationDate;
     }
-    
-    public void setCondition(String condition) {
-        this.condition = condition;
+
+    public void setExpirationDate(LocalDate expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public Boolean getPerishable() {
+        return perishable;
+    }
+
+    public void setPerishable(Boolean perishable) {
+        this.perishable = perishable;
+    }
+
+    public String getStorageInstructions() {
+        return storageInstructions;
+    }
+
+    public void setStorageInstructions(String storageInstructions) {
+        this.storageInstructions = storageInstructions;
     }
     
     public Integer getQuantity() {

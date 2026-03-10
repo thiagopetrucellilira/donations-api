@@ -247,7 +247,6 @@ public class MatchService {
             donationResponse.setDescription(donation.getDescription());
             donationResponse.setCategory(donation.getCategory());
             donationResponse.setQuantity(donation.getQuantity());
-            donationResponse.setCondition(donation.getCondition());
             donationResponse.setLocation(donation.getLocation());
             donationResponse.setCity(donation.getCity());
             donationResponse.setState(donation.getState());

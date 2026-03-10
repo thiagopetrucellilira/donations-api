@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Donation, DonationRequest, DonationFilters, PageResponse } from '../models/donation.model';
+import { Donation, DonationRequest, DonationFilters, FoodCategory, FOOD_CATEGORY_LABELS, PageResponse } from '../models/donation.model';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -50,27 +50,10 @@ export class DonationService {
     return this.http.get<Donation[]>(`${this.API_URL}/my`);
   }
 
-  getCategories(): string[] {
-    return [
-      'Roupas',
-      'Alimentos',
-      'Móveis',
-      'Livros',
-      'Brinquedos',
-      'Eletrônicos',
-      'Utensílios domésticos',
-      'Material escolar',
-      'Outros'
-    ];
-  }
-
-  getConditions(): string[] {
-    return [
-      'Novo',
-      'Como novo',
-      'Bom estado',
-      'Estado regular',
-      'Precisa de reparo'
-    ];
+  getCategories(): { value: FoodCategory; label: string }[] {
+    return Object.values(FoodCategory).map(value => ({
+      value,
+      label: FOOD_CATEGORY_LABELS[value]
+    }));
   }
 }

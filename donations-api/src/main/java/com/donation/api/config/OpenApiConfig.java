@@ -12,9 +12,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
     info = @Info(
-        title = "API de Gerenciamento de Doações Locais",
-        description = "Esta API permite o gerenciamento completo de doações locais, incluindo cadastro de usuários, " +
-                     "criação de doações, solicitações e matches entre doadores e beneficiários.",
+        title = "API de Gerenciamento de Doações de Alimentos",
+        description = "Esta API gerencia doações de alimentos, conectando doadores e beneficiários. " +
+                     "Inclui cadastro de usuários, publicação de alimentos para doação (por categoria, validade e perecibilidade), " +
+                     "solicitações e matches entre doadores e quem necessita.",
         version = "v1.0.0",
         contact = @Contact(
             name = "Equipe de Desenvolvimento",

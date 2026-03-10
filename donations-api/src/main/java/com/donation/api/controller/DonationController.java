@@ -3,6 +3,7 @@ package com.donation.api.controller;
 import com.donation.api.dto.DonationRequest;
 import com.donation.api.dto.DonationResponse;
 import com.donation.api.entity.Donation;
+import com.donation.api.entity.enums.FoodCategory;
 import com.donation.api.service.DonationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -35,7 +36,7 @@ public class DonationController {
     })
     @GetMapping
     public ResponseEntity<Page<DonationResponse>> getAllDonations(
-            @Parameter(description = "Categoria da doação") @RequestParam(required = false) String category,
+            @Parameter(description = "Categoria do alimento") @RequestParam(required = false) FoodCategory category,
             @Parameter(description = "Cidade") @RequestParam(required = false) String city,
             @Parameter(description = "Estado (UF)") @RequestParam(required = false) String state,
             @Parameter(description = "Status da doação") @RequestParam(required = false) Donation.DonationStatus status,

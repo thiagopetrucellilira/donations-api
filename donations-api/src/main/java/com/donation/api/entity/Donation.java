@@ -1,9 +1,11 @@
 package com.donation.api.entity;
 
+import com.donation.api.entity.enums.FoodCategory;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,9 +27,9 @@ public class Donation {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
     
-    @NotBlank(message = "Categoria é obrigatória")
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
-    private String category;
+    private FoodCategory category;
     
     @Column(nullable = false)
     private Integer quantity = 1;
@@ -54,18 +56,24 @@ public class Donation {
     @Column(name = "pickup_instructions", columnDefinition = "TEXT")
     private String pickupInstructions;
     
+    @Column(name = "expiration_date")
+    private LocalDate expirationDate;
+
+    @Column(name = "perishable")
+    private Boolean perishable = false;
+
+    @Column(name = "storage_instructions", columnDefinition = "TEXT")
+    private String storageInstructions;
+
     @Column(name = "expires_at")
     private LocalDateTime expiresAt;
-    
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
-    
+
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "item_condition", length = 50)
-    private String condition;
-    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "donor_id", nullable = false)
     private User donor;
@@ -89,7 +97,7 @@ public class Donation {
         this.createdAt = LocalDateTime.now();
     }
     
-    public Donation(String title, String description, String category, User donor) {
+    public Donation(String title, String description, FoodCategory category, User donor) {
         this();
         this.title = title;
         this.description = description;
@@ -131,22 +139,38 @@ public class Donation {
         this.description = description;
     }
     
-    public String getCategory() {
+    public FoodCategory getCategory() {
         return category;
     }
     
-    public void setCategory(String category) {
+    public void setCategory(FoodCategory category) {
         this.category = category;
     }
 
-    public String getCondition() {
-        return condition;
+    public LocalDate getExpirationDate() {
+        return expirationDate;
     }
-    
-    public void setCondition(String condition) {
-        this.condition = condition;
+
+    public void setExpirationDate(LocalDate expirationDate) {
+        this.expirationDate = expirationDate;
     }
-    
+
+    public Boolean getPerishable() {
+        return perishable;
+    }
+
+    public void setPerishable(Boolean perishable) {
+        this.perishable = perishable;
+    }
+
+    public String getStorageInstructions() {
+        return storageInstructions;
+    }
+
+    public void setStorageInstructions(String storageInstructions) {
+        this.storageInstructions = storageInstructions;
+    }
+
     public Integer getQuantity() {
         return quantity;
     }

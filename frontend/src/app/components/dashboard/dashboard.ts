@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { DonationService } from '../../services/donation.service';
 import { MatchService } from '../../services/match.service';
 import { AuthService } from '../../services/auth.service';
-import { Donation, DonationStatus } from '../../models/donation.model';
+import { Donation, DonationStatus, FoodCategory, FOOD_CATEGORY_LABELS } from '../../models/donation.model';
 import { Match, MatchStatus, UpdateMatchStatusRequest } from '../../models/match.model';
 import { User } from '../../models/user.model';
 import { Subscription, filter } from 'rxjs';
@@ -211,6 +211,11 @@ export class Dashboard implements OnInit, OnDestroy {
       case MatchStatus.COMPLETED: return 'Concluída';
       default: return 'Desconhecido';
     }
+  }
+
+  getCategoryLabel(category?: FoodCategory): string {
+    if (!category) return '';
+    return FOOD_CATEGORY_LABELS[category] || String(category);
   }
 
   canUpdateDonation(donation: Donation): boolean {

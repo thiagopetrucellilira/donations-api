@@ -9,10 +9,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
 import { DonationService } from '../../services/donation.service';
 import { AuthService } from '../../services/auth.service';
-import { DonationRequest } from '../../models/donation.model';
+import { DonationRequest, FoodCategory, FOOD_CATEGORY_LABELS } from '../../models/donation.model';
 
 @Component({
   selector: 'app-create-donation',
@@ -27,7 +28,8 @@ import { DonationRequest } from '../../models/donation.model';
     MatIconModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatCheckboxModule
   ],
   templateUrl: './create-donation.html',
   styleUrl: './create-donation.scss'
@@ -37,8 +39,7 @@ export class CreateDonation implements OnInit {
   loading = false;
   error = '';
   
-  categories: string[] = [];
-  conditions: string[] = [];
+  categories: { value: FoodCategory; label: string }[] = [];
   states = [
     'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA',
     'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN',
@@ -54,14 +55,15 @@ export class CreateDonation implements OnInit {
 
   ngOnInit() {
     this.categories = this.donationService.getCategories();
-    this.conditions = this.donationService.getConditions();
     
     this.donationForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
       description: ['', [Validators.required, Validators.minLength(10)]],
-      category: ['', Validators.required],
-      condition: [''],
+      category: [null, Validators.required],
       quantity: [1, [Validators.required, Validators.min(1)]],
+      expirationDate: [''],
+      perishable: [false],
+      storageInstructions: [''],
       location: [''],
       city: [''],
       state: [''],
@@ -142,7 +144,9 @@ export class CreateDonation implements OnInit {
       title: 'Título',
       description: 'Descrição',
       category: 'Categoria',
-      quantity: 'Quantidade'
+      quantity: 'Quantidade',
+      expirationDate: 'Data de validade',
+      storageInstructions: 'Instruções de armazenamento'
     };
     return labels[fieldName] || fieldName;
   }

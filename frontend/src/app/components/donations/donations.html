@@ -20,6 +20,16 @@
             </mat-form-field>
 
             <mat-form-field>
+              <mat-label>Categoria</mat-label>
+              <mat-select formControlName="category">
+                <mat-option value="">Todas as categorias</mat-option>
+                <mat-option *ngFor="let cat of categories" [value]="cat.value">
+                  {{ cat.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
               <mat-label>Cidade</mat-label>
               <input matInput formControlName="city" placeholder="Ex: São Paulo">
             </mat-form-field>
@@ -68,13 +78,18 @@
 
           <div class="donation-details">
             <div class="detail-item">
-              <mat-icon>category</mat-icon>
-              <span>{{ donation.category }}</span>
+              <mat-icon>restaurant</mat-icon>
+              <span>{{ getCategoryLabel(donation.category) }}</span>
             </div>
 
-            <div class="detail-item" *ngIf="donation.condition">
-              <mat-icon>info</mat-icon>
-              <span>{{ donation.condition }}</span>
+            <div class="detail-item" *ngIf="donation.perishable">
+              <mat-icon color="warn">thermostat</mat-icon>
+              <span>Perecível</span>
+            </div>
+
+            <div class="detail-item" *ngIf="donation.expirationDate">
+              <mat-icon>event</mat-icon>
+              <span>Validade: {{ donation.expirationDate | date:'dd/MM/yyyy' }}</span>
             </div>
 
             <div class="detail-item">

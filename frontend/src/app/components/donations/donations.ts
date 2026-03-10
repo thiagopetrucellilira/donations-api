@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 import { DonationService } from '../../services/donation.service';
 import { MatchService } from '../../services/match.service';
 import { AuthService } from '../../services/auth.service';
-import { Donation, DonationFilters, DonationStatus } from '../../models/donation.model';
+import { Donation, DonationFilters, DonationStatus, FoodCategory, FOOD_CATEGORY_LABELS } from '../../models/donation.model';
 import { MatchRequest } from '../../models/match.model';
 
 @Component({
@@ -44,7 +44,7 @@ export class Donations implements OnInit {
   pageSize = 10;
   currentPage = 0;
   
-  categories: string[] = [];
+  categories: { value: FoodCategory; label: string }[] = [];
   states = [
     'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA',
     'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN',
@@ -145,6 +145,11 @@ export class Donations implements OnInit {
 
   isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
+  }
+
+  getCategoryLabel(category?: FoodCategory): string {
+    if (!category) return '';
+    return FOOD_CATEGORY_LABELS[category] || category;
   }
 
   getStatusColor(status?: DonationStatus): string {

@@ -5,6 +5,7 @@ import com.donation.api.dto.DonationResponse;
 import com.donation.api.dto.UserResponse;
 import com.donation.api.entity.Donation;
 import com.donation.api.entity.User;
+import com.donation.api.entity.enums.FoodCategory;
 import com.donation.api.repository.DonationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +30,7 @@ public class DonationService {
     
     @Transactional(readOnly = true)
     public Page<DonationResponse> getAllDonations(
-            String category, 
+            FoodCategory category, 
             String city, 
             String state, 
             Donation.DonationStatus status,
@@ -57,8 +59,10 @@ public class DonationService {
         donation.setTitle(request.getTitle());
         donation.setDescription(request.getDescription());
         donation.setCategory(request.getCategory());
-        donation.setCondition(request.getCondition());
         donation.setQuantity(request.getQuantity());
+        donation.setExpirationDate(request.getExpirationDate());
+        donation.setPerishable(request.getPerishable());
+        donation.setStorageInstructions(request.getStorageInstructions());
         donation.setLocation(request.getLocation());
         donation.setCity(request.getCity());
         donation.setState(request.getState());
@@ -93,8 +97,10 @@ public class DonationService {
         donation.setTitle(request.getTitle());
         donation.setDescription(request.getDescription());
         donation.setCategory(request.getCategory());
-        donation.setCondition(request.getCondition());
         donation.setQuantity(request.getQuantity());
+        donation.setExpirationDate(request.getExpirationDate());
+        donation.setPerishable(request.getPerishable());
+        donation.setStorageInstructions(request.getStorageInstructions());
         donation.setLocation(request.getLocation());
         donation.setCity(request.getCity());
         donation.setState(request.getState());
@@ -171,7 +177,9 @@ public class DonationService {
     }
     
     public List<String> getCategories() {
-        return donationRepository.findDistinctCategories();
+        return Arrays.stream(FoodCategory.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
     }
     
     public List<String> getCities() {
@@ -188,8 +196,10 @@ public class DonationService {
             response.setTitle(donation.getTitle());
             response.setDescription(donation.getDescription());
             response.setCategory(donation.getCategory());
-            response.setCondition(donation.getCondition());
             response.setQuantity(donation.getQuantity());
+            response.setExpirationDate(donation.getExpirationDate());
+            response.setPerishable(donation.getPerishable());
+            response.setStorageInstructions(donation.getStorageInstructions());
             response.setLocation(donation.getLocation());
             response.setCity(donation.getCity());
             response.setState(donation.getState());

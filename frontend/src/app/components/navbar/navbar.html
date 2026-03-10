@@ -3,14 +3,14 @@
     <!-- Logo and Title -->
     <div class="logo-section" routerLink="/">
       <mat-icon class="logo-icon">volunteer_activism</mat-icon>
-      <span class="app-title">Doações Locais</span>
+      <span class="app-title">Doações de Alimentos</span>
     </div>
 
     <!-- Navigation Links -->
     <div class="nav-links" *ngIf="isLoggedIn()">
       <button mat-button routerLink="/donations" routerLinkActive="active">
-        <mat-icon>card_giftcard</mat-icon>
-        Doações
+        <mat-icon>restaurant</mat-icon>
+        Alimentos
       </button>
       <button mat-button routerLink="/create-donation" routerLinkActive="active">
         <mat-icon>add_circle</mat-icon>

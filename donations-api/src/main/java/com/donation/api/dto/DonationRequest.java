@@ -1,9 +1,12 @@
 package com.donation.api.dto;
 
+import com.donation.api.entity.enums.FoodCategory;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class DonationRequest {
@@ -16,14 +19,15 @@ public class DonationRequest {
     @Size(min = 10, message = "Descrição deve ter no mínimo 10 caracteres")
     private String description;
     
-    @NotBlank(message = "Categoria é obrigatória")
-    private String category;
-    
-    private String condition;
+    @NotNull(message = "Categoria é obrigatória")
+    private FoodCategory category;
     
     @Positive(message = "Quantidade deve ser positiva")
     private Integer quantity = 1;
     
+    private LocalDate expirationDate;
+    private Boolean perishable = false;
+    private String storageInstructions;
     private String location;
     private String city;
     private String state;
@@ -51,20 +55,36 @@ public class DonationRequest {
         this.description = description;
     }
     
-    public String getCategory() {
+    public FoodCategory getCategory() {
         return category;
     }
     
-    public void setCategory(String category) {
+    public void setCategory(FoodCategory category) {
         this.category = category;
     }
-    
-    public String getCondition() {
-        return condition;
+
+    public LocalDate getExpirationDate() {
+        return expirationDate;
     }
-    
-    public void setCondition(String condition) {
-        this.condition = condition;
+
+    public void setExpirationDate(LocalDate expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public Boolean getPerishable() {
+        return perishable;
+    }
+
+    public void setPerishable(Boolean perishable) {
+        this.perishable = perishable;
+    }
+
+    public String getStorageInstructions() {
+        return storageInstructions;
+    }
+
+    public void setStorageInstructions(String storageInstructions) {
+        this.storageInstructions = storageInstructions;
     }
     
     public Integer getQuantity() {

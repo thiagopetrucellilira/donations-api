@@ -9,13 +9,41 @@ export enum DonationStatus {
   CANCELLED = 'CANCELLED'
 }
 
+export enum FoodCategory {
+  GRAOS_CEREAIS = 'GRAOS_CEREAIS',
+  HORTIFRUTI = 'HORTIFRUTI',
+  LATICINIOS = 'LATICINIOS',
+  PROTEINAS = 'PROTEINAS',
+  ENLATADOS_CONSERVAS = 'ENLATADOS_CONSERVAS',
+  BEBIDAS = 'BEBIDAS',
+  PADARIA_CONFEITARIA = 'PADARIA_CONFEITARIA',
+  TEMPEROS_CONDIMENTOS = 'TEMPEROS_CONDIMENTOS',
+  REFEICAO_PRONTA = 'REFEICAO_PRONTA',
+  OUTROS = 'OUTROS'
+}
+
+export const FOOD_CATEGORY_LABELS: Record<FoodCategory, string> = {
+  [FoodCategory.GRAOS_CEREAIS]: 'Grãos e Cereais',
+  [FoodCategory.HORTIFRUTI]: 'Hortifruti',
+  [FoodCategory.LATICINIOS]: 'Laticínios',
+  [FoodCategory.PROTEINAS]: 'Proteínas',
+  [FoodCategory.ENLATADOS_CONSERVAS]: 'Enlatados e Conservas',
+  [FoodCategory.BEBIDAS]: 'Bebidas',
+  [FoodCategory.PADARIA_CONFEITARIA]: 'Padaria e Confeitaria',
+  [FoodCategory.TEMPEROS_CONDIMENTOS]: 'Temperos e Condimentos',
+  [FoodCategory.REFEICAO_PRONTA]: 'Refeição Pronta',
+  [FoodCategory.OUTROS]: 'Outros'
+};
+
 export interface Donation {
   id?: number;
   title: string;
   description: string;
-  category: string;
-  condition?: string;
+  category: FoodCategory;
   quantity: number;
+  expirationDate?: string;
+  perishable?: boolean;
+  storageInstructions?: string;
   location?: string;
   city?: string;
   state?: string;
@@ -32,9 +60,11 @@ export interface Donation {
 export interface DonationRequest {
   title: string;
   description: string;
-  category: string;
-  condition?: string;
+  category: FoodCategory;
   quantity: number;
+  expirationDate?: string;
+  perishable?: boolean;
+  storageInstructions?: string;
   location?: string;
   city?: string;
   state?: string;
@@ -45,7 +75,7 @@ export interface DonationRequest {
 }
 
 export interface DonationFilters {
-  category?: string;
+  category?: FoodCategory;
   city?: string;
   state?: string;
   status?: DonationStatus;

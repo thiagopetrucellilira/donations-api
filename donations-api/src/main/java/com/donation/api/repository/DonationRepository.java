@@ -2,6 +2,7 @@ package com.donation.api.repository;
 
 import com.donation.api.entity.Donation;
 import com.donation.api.entity.User;
+import com.donation.api.entity.enums.FoodCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,7 +29,7 @@ public interface DonationRepository extends JpaRepository<Donation, Long> {
            "(:status IS NULL OR d.status = :status) AND " +
            "(:search IS NULL OR LOWER(d.title) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(d.description) LIKE LOWER(CONCAT('%', :search, '%')))")
     Page<Donation> findWithFilters(
-        @Param("category") String category,
+        @Param("category") FoodCategory category,
         @Param("city") String city,
         @Param("state") String state,
         @Param("status") Donation.DonationStatus status,
@@ -38,13 +39,10 @@ public interface DonationRepository extends JpaRepository<Donation, Long> {
     
     List<Donation> findByStatus(Donation.DonationStatus status);
     
-    List<Donation> findByCategory(String category);
+    List<Donation> findByCategory(FoodCategory category);
     
     @Query("SELECT d FROM Donation d WHERE d.city = :city AND d.status = :status")
     List<Donation> findByCityAndStatus(@Param("city") String city, @Param("status") Donation.DonationStatus status);
-    
-    @Query("SELECT DISTINCT d.category FROM Donation d ORDER BY d.category")
-    List<String> findDistinctCategories();
     
     @Query("SELECT DISTINCT d.city FROM Donation d WHERE d.city IS NOT NULL ORDER BY d.city")
     List<String> findDistinctCities();

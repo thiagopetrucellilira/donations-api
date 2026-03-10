@@ -1,6 +1,55 @@
-# API de Gerenciamento de Doações Locais
+# API de Doações de Alimentos
 
-Esta é uma API RESTful desenvolvida com Spring Boot para gerenciar doações locais, permitindo que usuários cadastrem doações e outros usuários solicitem essas doações.
+API RESTful desenvolvida com Spring Boot para gerenciar doações de alimentos, permitindo que usuários cadastrem doações e outros usuários solicitem essas doações.
+
+## ☁️ Deploy em Produção (Railway)
+
+### Serviço recomendado: [Railway](https://railway.app) — gratuito com US$5/mês de crédito
+
+#### Passo a passo
+
+**1. Preparar o repositório**
+```bash
+# Na raiz do projeto
+git add .
+git commit -m "feat: configuração para deploy no Railway"
+git push
+```
+
+**2. Criar conta e novo projeto no Railway**
+- Acesse [railway.app](https://railway.app) e faça login com GitHub
+- Clique em **New Project → Deploy from GitHub repo**
+- Selecione o repositório `IntegradorSenac2026`
+- Quando perguntar o diretório de deploy, aponte para `/donations-api`
+
+**3. Adicionar o banco de dados MySQL**
+- No painel do projeto clique em **New → Database → MySQL**
+- O Railway cria o banco e injeta automaticamente as variáveis: `MYSQLHOST`, `MYSQLPORT`, `MYSQLDATABASE`, `MYSQLUSER`, `MYSQLPASSWORD`
+
+**4. Configurar as variáveis de ambiente do serviço da API**
+
+No painel do serviço vá em **Variables** e adicione:
+
+| Variável | Valor |
+|---|---|
+| `JWT_SECRET` | Uma string longa e aleatória (ex: `kDf9P2mX8nQ7rT4vL0sW5jA3gH6cE1bY`) |
+| `SPRING_PROFILES_ACTIVE` | `prod` |
+
+> As variáveis MySQL são injetadas automaticamente pelo Railway ao vincular o banco ao serviço.
+
+**5. Aguardar o deploy**
+- Railway detecta o `railway.toml`, executa `mvn clean package -DskipTests` nos seus servidores e inicia a aplicação
+- Nenhuma instalação de Docker é necessária na sua máquina
+- O health check em `/actuator/health` confirma que a API está no ar
+- A URL pública será exibida no painel (ex: `https://sua-api.up.railway.app`)
+
+**6. Verificar o deploy**
+```
+GET https://sua-api.up.railway.app/actuator/health
+GET https://sua-api.up.railway.app/swagger-ui/index.html
+```
+
+---
 
 ## 🚀 Funcionalidades
 

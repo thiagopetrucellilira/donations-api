@@ -3,6 +3,7 @@ package com.donation.api.config;
 import com.donation.api.entity.User;
 import com.donation.api.entity.Donation;
 import com.donation.api.entity.Match;
+import com.donation.api.entity.enums.FoodCategory;
 import com.donation.api.entity.enums.UserRole;
 import com.donation.api.repository.UserRepository;
 import com.donation.api.repository.DonationRepository;
@@ -12,6 +13,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -68,7 +70,7 @@ public class DataInitializer implements CommandLineRunner {
         joao.setCity("São Paulo");
         joao.setState("SP");
         joao.setZipCode("01234-567");
-        joao.setBio("Empresário que acredita na solidariedade. Gosto de ajudar pessoas em situação de vulnerabilidade através de doações de roupas e alimentos.");
+        joao.setBio("Supermercadista local que doa alimentos com prazo de validade próximo do vencimento mas ainda adequados ao consumo. Acredito que nenhum alimento deve ser desperdiçado!");
         joao.setRole(UserRole.DONOR);
         joao.setEnabled(true);
         joao.setCreatedAt(LocalDateTime.now());
@@ -83,7 +85,7 @@ public class DataInitializer implements CommandLineRunner {
         maria.setCity("Rio de Janeiro");
         maria.setState("RJ");
         maria.setZipCode("22070-000");
-        maria.setBio("Professora aposentada que adora ajudar famílias carentes. Sempre tenho livros, roupas infantis e brinquedos para doar.");
+        maria.setBio("Professora aposentada e cozinheira amadora. Amo preparar e compartilhar refeições. Frequentemente doo marmitas prontas e alimentos excedentes das minhas receitas.");
         maria.setRole(UserRole.DONOR);
         maria.setEnabled(true);
         maria.setCreatedAt(LocalDateTime.now());
@@ -98,7 +100,7 @@ public class DataInitializer implements CommandLineRunner {
         carlos.setCity("Belo Horizonte");
         carlos.setState("MG");
         carlos.setZipCode("30120-000");
-        carlos.setBio("Comerciante local. Sempre que renovo o estoque, doo produtos em bom estado para quem precisa.");
+        carlos.setBio("Comerciante de hortifruti. Doo regularmente frutas, verduras e legumes frescos que não foram vendidos no dia.");
         carlos.setRole(UserRole.DONOR);
         carlos.setEnabled(true);
         carlos.setCreatedAt(LocalDateTime.now());
@@ -113,7 +115,7 @@ public class DataInitializer implements CommandLineRunner {
         ana.setCity("Blumenau");
         ana.setState("SC");
         ana.setZipCode("89010-000");
-        ana.setBio("Médica voluntária. Participo de campanhas sociais e sempre doo roupas, calçados e itens de higiene.");
+        ana.setBio("Nutricionista voluntária. Participo de campanhas sociais e doo cestas básicas, alimentos funcionais e orientações nutricionais para famílias em vulnerabilidade.");
         ana.setRole(UserRole.DONOR);
         ana.setEnabled(true);
         ana.setCreatedAt(LocalDateTime.now());
@@ -128,7 +130,7 @@ public class DataInitializer implements CommandLineRunner {
         roberto.setCity("Fortaleza");
         roberto.setState("CE");
         roberto.setZipCode("60165-000");
-        roberto.setBio("Engenheiro aposentado. Gosto de ajudar organizações sociais e famílias através de doações de móveis e eletrodomésticos.");
+        roberto.setBio("Restauranteiro aposentado. Doo alimentos não perecíveis e conservas do antigo restaurante que ainda estão dentro da validade.");
         roberto.setRole(UserRole.DONOR);
         roberto.setEnabled(true);
         roberto.setCreatedAt(LocalDateTime.now());
@@ -144,7 +146,7 @@ public class DataInitializer implements CommandLineRunner {
         lucia.setCity("São Paulo");
         lucia.setState("SP");
         lucia.setZipCode("08100-000");
-        lucia.setBio("Mãe solteira de dois filhos. Trabalho como diarista e preciso de ajuda com roupas infantis e alimentos básicos.");
+        lucia.setBio("Mãe solteira de dois filhos. Trabalho como diarista e preciso de ajuda com alimentos básicos para minha família.");
         lucia.setRole(UserRole.REQUESTER);
         lucia.setEnabled(true);
         lucia.setCreatedAt(LocalDateTime.now());
@@ -159,7 +161,7 @@ public class DataInitializer implements CommandLineRunner {
         pedro.setCity("Rio de Janeiro");
         pedro.setState("RJ");
         pedro.setZipCode("21040-000");
-        pedro.setBio("Estudante universitário em situação de vulnerabilidade. Preciso de livros, material escolar e às vezes alimentos.");
+        pedro.setBio("Estudante universitário em situação de vulnerabilidade. Preciso de alimentos não perecíveis e às vezes de refeições prontas.");
         pedro.setRole(UserRole.REQUESTER);
         pedro.setEnabled(true);
         pedro.setCreatedAt(LocalDateTime.now());
@@ -174,7 +176,7 @@ public class DataInitializer implements CommandLineRunner {
         sandra.setCity("Belo Horizonte");
         sandra.setState("MG");
         sandra.setZipCode("31030-000");
-        sandra.setBio("Cuidadora de idosos. Mãe de três filhos, preciso de roupas infantis e itens básicos para a casa.");
+        sandra.setBio("Cuidadora de idosos. Mãe de três filhos, preciso de alimentos básicos e laticínios para as crianças.");
         sandra.setRole(UserRole.REQUESTER);
         sandra.setEnabled(true);
         sandra.setCreatedAt(LocalDateTime.now());
@@ -189,7 +191,7 @@ public class DataInitializer implements CommandLineRunner {
         jose.setCity("Blumenau");
         jose.setState("SC");
         jose.setZipCode("89020-000");
-        jose.setBio("Desempregado há 6 meses. Pai de família procurando oportunidades e precisando de roupas para entrevistas de emprego.");
+        jose.setBio("Desempregado há 6 meses. Pai de família procurando oportunidades e precisando de cestas básicas para sustentar os filhos.");
         jose.setRole(UserRole.REQUESTER);
         jose.setEnabled(true);
         jose.setCreatedAt(LocalDateTime.now());
@@ -204,7 +206,7 @@ public class DataInitializer implements CommandLineRunner {
         francisca.setCity("Fortaleza");
         francisca.setState("CE");
         francisca.setZipCode("60180-000");
-        francisca.setBio("Avó cuidando de 4 netos. Preciso de roupas infantis, material escolar e alimentos não perecíveis.");
+        francisca.setBio("Avó cuidando de 4 netos. Preciso de alimentos não perecíveis e leite para as crianças.");
         francisca.setRole(UserRole.REQUESTER);
         francisca.setEnabled(true);
         francisca.setCreatedAt(LocalDateTime.now());
@@ -230,11 +232,13 @@ public class DataInitializer implements CommandLineRunner {
         User joao = donors.get(0);
         
         Donation donation1 = new Donation();
-        donation1.setTitle("Roupas Masculinas Tamanho M e G");
-        donation1.setDescription("Camisetas, calças jeans e camisas sociais em ótimo estado. Roupas de marca, bem conservadas, ideais para trabalho e uso casual.");
-        donation1.setCategory("Roupas");
-        donation1.setCondition("BOM");
-        donation1.setQuantity(15);
+        donation1.setTitle("Cesta Básica Completa");
+        donation1.setDescription("Cesta completa com arroz 5kg, feijão 1kg, óleo 2L, macarrão 500g, açúcar 1kg, sal 1kg e farinha de trigo 1kg. Todos os produtos dentro do prazo de validade.");
+        donation1.setCategory(FoodCategory.GRAOS_CEREAIS);
+        donation1.setQuantity(5);
+        donation1.setPerishable(false);
+        donation1.setExpirationDate(LocalDate.now().plusMonths(6));
+        donation1.setStorageInstructions("Manter em local seco e arejado, longe de umidade.");
         donation1.setLocation("Próximo ao Shopping Eldorado");
         donation1.setCity("São Paulo");
         donation1.setState("SP");
@@ -247,18 +251,20 @@ public class DataInitializer implements CommandLineRunner {
         donationRepository.save(donation1);
         
         Donation donation2 = new Donation();
-        donation2.setTitle("Alimentos Não Perecíveis");
-        donation2.setDescription("Cesta básica completa: arroz, feijão, óleo, macarrão, açúcar, sal, farinha de trigo, sardinha e molho de tomate.");
-        donation2.setCategory("Alimentos");
-        donation2.setCondition("NOVA");
+        donation2.setTitle("Frutas e Legumes Frescos");
+        donation2.setDescription("Caixas com bananas, maçãs, tomates e cenouras colhidos recentemente. Ideal para distribuição imediata.");
+        donation2.setCategory(FoodCategory.HORTIFRUTI);
         donation2.setQuantity(3);
+        donation2.setPerishable(true);
+        donation2.setExpirationDate(LocalDate.now().plusDays(5));
+        donation2.setStorageInstructions("Conservar em local fresco. Refrigerar após aberto.");
         donation2.setLocation("Região Central da Cidade");
         donation2.setCity("São Paulo");
         donation2.setState("SP");
         donation2.setZipCode("01234-567");
         donation2.setStatus(Donation.DonationStatus.AVAILABLE);
-        donation2.setPickupInstructions("Retirada combinada via WhatsApp. Posso entregar em pontos próximos ao metrô.");
-        donation2.setExpiresAt(LocalDateTime.now().plusDays(15));
+        donation2.setPickupInstructions("Retirada urgente — alimentos perecíveis. Combinar via WhatsApp.");
+        donation2.setExpiresAt(LocalDateTime.now().plusDays(3));
         donation2.setCreatedAt(LocalDateTime.now());
         donation2.setDonor(joao);
         donationRepository.save(donation2);
@@ -268,28 +274,32 @@ public class DataInitializer implements CommandLineRunner {
             User maria = donors.get(1);
             
             Donation donation3 = new Donation();
-            donation3.setTitle("Livros Didáticos Ensino Fundamental");
-            donation3.setDescription("Livros de matemática, português, ciências e história do 6º ao 9º ano. Material em bom estado, poucos rabiscos.");
-            donation3.setCategory("Educação");
-            donation3.setCondition("BOM");
-            donation3.setQuantity(25);
+            donation3.setTitle("Leite Integral e Derivados");
+            donation3.setDescription("Caixas de leite integral (1L cada), iogurte natural e queijo minas frescal. Produtos frescos de qualidade.");
+            donation3.setCategory(FoodCategory.LATICINIOS);
+            donation3.setQuantity(10);
+            donation3.setPerishable(true);
+            donation3.setExpirationDate(LocalDate.now().plusDays(10));
+            donation3.setStorageInstructions("Manter refrigerado entre 2°C e 8°C. Consumir após aberto em até 3 dias.");
             donation3.setLocation("Copacabana - Próximo à praia");
             donation3.setCity("Rio de Janeiro");
             donation3.setState("RJ");
             donation3.setZipCode("22070-000");
             donation3.setStatus(Donation.DonationStatus.AVAILABLE);
-            donation3.setPickupInstructions("Retirada preferencialmente aos finais de semana. Moro próximo à estação do metrô.");
-            donation3.setExpiresAt(LocalDateTime.now().plusDays(45));
+            donation3.setPickupInstructions("Retirada preferencialmente pela manhã. Moro próximo à estação do metrô.");
+            donation3.setExpiresAt(LocalDateTime.now().plusDays(7));
             donation3.setCreatedAt(LocalDateTime.now());
             donation3.setDonor(maria);
             donationRepository.save(donation3);
             
             Donation donation4 = new Donation();
-            donation4.setTitle("Roupas Infantis 4 a 8 anos");
-            donation4.setDescription("Vestidos, camisetas, shorts e calças para meninas. Algumas peças de marca, todas bem cuidadas.");
-            donation4.setCategory("Roupas");
-            donation4.setCondition("BOM");
+            donation4.setTitle("Enlatados e Conservas Variados");
+            donation4.setDescription("Sardinhas em lata, atum, milho em conserva, ervilhas, molho de tomate e extrato de tomate. Todos com validade longa.");
+            donation4.setCategory(FoodCategory.ENLATADOS_CONSERVAS);
             donation4.setQuantity(20);
+            donation4.setPerishable(false);
+            donation4.setExpirationDate(LocalDate.now().plusYears(1));
+            donation4.setStorageInstructions("Armazenar em local seco e fresco, longe de luz solar direta.");
             donation4.setLocation("Copacabana - Zona Sul");
             donation4.setCity("Rio de Janeiro");
             donation4.setState("RJ");
@@ -307,18 +317,20 @@ public class DataInitializer implements CommandLineRunner {
             User carlos = donors.get(2);
             
             Donation donation5 = new Donation();
-            donation5.setTitle("Móveis para Casa");
-            donation5.setDescription("Mesa de jantar com 4 cadeiras, estante pequena e rack para TV. Móveis usados mas em bom estado.");
-            donation5.setCategory("Móveis");
-            donation5.setCondition("BOM");
-            donation5.setQuantity(1);
+            donation5.setTitle("Marmitas Prontas - Almoço Solidário");
+            donation5.setDescription("Marmitas com arroz, feijão, frango grelhado e salada. Preparadas hoje cedo e acondicionadas adequadamente.");
+            donation5.setCategory(FoodCategory.REFEICAO_PRONTA);
+            donation5.setQuantity(8);
+            donation5.setPerishable(true);
+            donation5.setExpirationDate(LocalDate.now());
+            donation5.setStorageInstructions("Manter refrigerado. Consumir no mesmo dia ou aquecer antes de consumir.");
             donation5.setLocation("Centro Comercial - Região do Mercado Central");
             donation5.setCity("Belo Horizonte");
             donation5.setState("MG");
             donation5.setZipCode("30120-000");
             donation5.setStatus(Donation.DonationStatus.AVAILABLE);
-            donation5.setPickupInstructions("Retirada com agendamento. Possuo caminhão para entrega em BH mediante combinação.");
-            donation5.setExpiresAt(LocalDateTime.now().plusDays(20));
+            donation5.setPickupInstructions("Retirada urgente até as 15h de hoje. Após esse horário as marmitas não estarão mais disponíveis.");
+            donation5.setExpiresAt(LocalDateTime.now().plusHours(8));
             donation5.setCreatedAt(LocalDateTime.now());
             donation5.setDonor(carlos);
             donationRepository.save(donation5);
@@ -344,7 +356,7 @@ public class DataInitializer implements CommandLineRunner {
         // Criar alguns matches de exemplo
         if (donations.size() > 0 && requesters.size() > 0) {
             Match match1 = new Match();
-            match1.setMessage("Olá! Preciso muito dessas roupas para meu irmão que está procurando emprego. Ele veste tamanho M. Posso buscar no horário que for melhor para você. Muito obrigada pela oportunidade!");
+            match1.setMessage("Olá! Sou mãe solteira de dois filhos e estamos precisando muito de alimentos. Posso buscar no horário que for melhor para você. Muito obrigada pela oportunidade!");
             match1.setStatus(Match.MatchStatus.PENDING);
             match1.setRequestedAt(LocalDateTime.now());
             match1.setCreatedAt(LocalDateTime.now());
@@ -355,7 +367,7 @@ public class DataInitializer implements CommandLineRunner {
         
         if (donations.size() > 1 && requesters.size() > 1) {
             Match match2 = new Match();
-            match2.setMessage("Oi! Sou estudante e trabalho com reforço escolar para crianças carentes. Esses livros seriam muito úteis. Posso buscar no final de semana. Desde já agradeço!");
+            match2.setMessage("Oi! Sou estudante com dificuldades financeiras e os alimentos seriam de grande ajuda. Posso buscar no final de semana. Desde já agradeço!");
             match2.setStatus(Match.MatchStatus.APPROVED);
             match2.setRequestedAt(LocalDateTime.now().minusDays(2));
             match2.setCreatedAt(LocalDateTime.now().minusDays(2));

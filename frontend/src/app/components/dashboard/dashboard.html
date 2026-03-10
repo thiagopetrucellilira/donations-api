@@ -98,8 +98,8 @@
                   
                   <div class="donation-details">
                     <div class="detail-item">
-                      <mat-icon>category</mat-icon>
-                      <span>{{ donation.category }}</span>
+                      <mat-icon>restaurant</mat-icon>
+                      <span>{{ getCategoryLabel(donation.category) }}</span>
                     </div>
                     <div class="detail-item">
                       <mat-icon>inventory</mat-icon>
@@ -142,7 +142,7 @@
               <div class="empty-state">
                 <mat-icon>volunteer_activism</mat-icon>
                 <h3>Nenhuma doação criada</h3>
-                <p>Que tal doar alimentos?</p>
+                <p>Que tal doar alimentos para quem precisa?</p>
                 <button mat-raised-button color="primary" routerLink="/create-donation" class="action-button">
                   <mat-icon>add_circle</mat-icon>
                   Criar Primeira Doação
