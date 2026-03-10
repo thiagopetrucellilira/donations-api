@@ -1,269 +1,236 @@
-# Plataforma de Doações Locais
+# API de Doações de Alimentos
 
-**PROJETO INTEGRADOR V: ANÁLISE DE SOLUÇÕES INTEGRADAS PARA ORGANIZAÇÕES**
+API RESTful desenvolvida com Spring Boot para gerenciar doações de alimentos, permitindo que usuários cadastrem doações e outros usuários solicitem essas doações.
 
-Uma plataforma web que conecta doadores, instituições sociais e pessoas em situação de vulnerabilidade para facilitar a doação de alimentos de forma local, prática e transparente.
+## ☁️ Deploy em Produção (Railway)
 
-## 🎯 Sobre o Projeto
+### Serviço recomendado: [Railway](https://railway.app) — gratuito com US$5/mês de crédito
 
-A plataforma visa otimizar o processo de doações, garantindo que os alimentos encontrem as pessoas que mais precisam deles. Através da conexão direta entre doadores e beneficiários, o projeto promove:
+#### Passo a passo
 
-- **Impacto direto**: Doações chegam a quem realmente precisa
-- **Comunidade local**: Foco em proximidade geográfica para facilitar entregas
-- **Transparência**: Acompanhamento do destino das doações
-- **Eficiência**: Redução do desperdício e otimização de recursos
-
-### 👥 Integrantes do Grupo
-
-- **David Marao Spungin**
-- **Iago Pedro da Silva**
-- **Kalani Klafke de Lemos Perin**
-- **Sidney de Oliveira Junior**
-- **Thiago Petrucelli de Lira**
-- **Wagner Morais Freitas da Silva**
-
----
-
-## 🚀 Tecnologias Utilizadas
-
-### Backend
-- **Java 17** - Linguagem de programação
-- **Spring Boot 3.1.5** - Framework principal
-- **Spring Security** - Autenticação e autorização
-- **Spring Data JPA** - Persistência de dados
-- **JWT** - Autenticação baseada em tokens
-- **MySQL** - Banco de dados
-- **Maven** - Gerenciamento de dependências
-
-### Frontend
-- **Angular 20** - Framework frontend
-- **Angular Material** - Biblioteca de componentes UI
-- **TypeScript** - Linguagem de programação
-- **RxJS** - Programação reativa
-- **SCSS** - Preprocessador CSS
-
----
-
-## 📁 Estrutura do Projeto
-
+**1. Preparar o repositório**
+```bash
+# Na raiz do projeto
+git add .
+git commit -m "feat: configuração para deploy no Railway"
+git push
 ```
-IntegradorSenac2025/
-├── frontend/                    # Aplicação Angular
-│   ├── src/
-│   │   ├── app/                # Componentes da aplicação
-│   │   ├── environments/       # Configurações de ambiente
-│   │   └── index.html          # Página principal
-│   ├── package.json            # Dependências do Node.js
-│   └── angular.json            # Configuração do Angular
-│
-├── donations-api/              # API REST Spring Boot
-│   ├── src/
-│   │   ├── main/java/          # Código fonte Java
-│   │   └── main/resources/     # Recursos e configurações
-│   └── pom.xml                 # Dependências do Maven
-│
-└── README.md                   # Este arquivo
+
+**2. Criar conta e novo projeto no Railway**
+- Acesse [railway.app](https://railway.app) e faça login com GitHub
+- Clique em **New Project → Deploy from GitHub repo**
+- Selecione o repositório `IntegradorSenac2026`
+- Quando perguntar o diretório de deploy, aponte para `/donations-api`
+
+**3. Adicionar o banco de dados MySQL**
+- No painel do projeto clique em **New → Database → MySQL**
+- O Railway cria o banco e injeta automaticamente as variáveis: `MYSQLHOST`, `MYSQLPORT`, `MYSQLDATABASE`, `MYSQLUSER`, `MYSQLPASSWORD`
+
+**4. Configurar as variáveis de ambiente do serviço da API**
+
+No painel do serviço vá em **Variables** e adicione:
+
+| Variável | Valor |
+|---|---|
+| `JWT_SECRET` | Uma string longa e aleatória (ex: `kDf9P2mX8nQ7rT4vL0sW5jA3gH6cE1bY`) |
+| `SPRING_PROFILES_ACTIVE` | `prod` |
+
+> As variáveis MySQL são injetadas automaticamente pelo Railway ao vincular o banco ao serviço.
+
+**5. Aguardar o deploy**
+- Railway detecta o `railway.toml`, executa `mvn clean package -DskipTests` nos seus servidores e inicia a aplicação
+- Nenhuma instalação de Docker é necessária na sua máquina
+- O health check em `/actuator/health` confirma que a API está no ar
+- A URL pública será exibida no painel (ex: `https://sua-api.up.railway.app`)
+
+**6. Verificar o deploy**
+```
+GET https://sua-api.up.railway.app/actuator/health
+GET https://sua-api.up.railway.app/swagger-ui/index.html
 ```
 
 ---
 
-## ⚙️ Pré-requisitos
+## 🚀 Funcionalidades
 
-Antes de executar a aplicação, certifique-se de ter instalado:
+### Autenticação
+- **POST** `/api/auth/register` - Cadastro de novo usuário
+- **POST** `/api/auth/login` - Login e obtenção do token JWT
+- **GET** `/api/auth/me` - Obter dados do usuário logado
 
-- **Java 17+** - [Download](https://openjdk.org/projects/jdk/17/)
-- **Maven 3.6+** - [Download](https://maven.apache.org/download.cgi)
-- **Node.js 18+** - [Download](https://nodejs.org/)
-- **Angular CLI** - `npm install -g @angular/cli`
-- **MySQL 8.0+** - [Download](https://dev.mysql.com/downloads/mysql/)
+### Usuários
+- **GET** `/api/users/profile` - Obter perfil do usuário
+- **PUT** `/api/users/profile` - Atualizar perfil do usuário
 
----
+### Doações
+- **GET** `/api/donations` - Listar doações (com filtros)
+- **POST** `/api/donations` - Criar nova doação
+- **GET** `/api/donations/{id}` - Obter detalhes da doação
+- **PUT** `/api/donations/{id}` - Atualizar doação
+- **DELETE** `/api/donations/{id}` - Deletar doação
+- **GET** `/api/donations/my` - Listar minhas doações
+- **GET** `/api/donations/categories` - Listar categorias disponíveis
+- **GET** `/api/donations/cities` - Listar cidades disponíveis
 
-## 🔧 Configuração e Execução
+### Matches (Solicitações)
+- **POST** `/api/matches` - Solicitar doação
+- **GET** `/api/matches/my` - Minhas solicitações
+- **GET** `/api/matches/received` - Solicitações recebidas para minhas doações
+- **PUT** `/api/matches/{id}/status` - Atualizar status da solicitação
+- **GET** `/api/matches/donation/{donationId}` - Listar solicitações de uma doação
 
-### 1. Configuração do Banco de Dados
+## 🛠️ Tecnologias Utilizadas
 
-**Configuração Simples (padrão do projeto):**
+- **Java 17**
+- **Spring Boot 3.1.5**
+- **Spring Security** (Autenticação JWT)
+- **Spring Data JPA** (Persistência)
+- **H2 Database** (Banco em memória para desenvolvimento)
+- **MySQL** (Banco para produção)
+- **SpringDoc OpenAPI** (Documentação Swagger)
+- **ModelMapper** (Mapeamento de DTOs)
+- **Maven** (Gerenciamento de dependências)
 
-1. **Instale o MySQL** e certifique-se de que está rodando na porta 3306
-2. **Conecte como root** (sem senha) e execute:
-   ```sql
-   CREATE DATABASE donations_db;
+## 📋 Pré-requisitos
+
+- Java 17 ou superior
+- Maven 3.6 ou superior
+
+## 🔧 Como executar
+
+1. **Clone o repositório**
+   ```bash
+   git clone <repository-url>
+   cd donation-api
    ```
 
-**✅ Pronto!** O Spring Boot fará o resto automaticamente:
-- Criará as tabelas via JPA
-- Populará os dados via `DataInitializer`
+2. **Execute a aplicação**
+   ```bash
+   mvn spring-boot:run
+   ```
 
-**⚠️ Se sua instalação do MySQL usar senha para root:**
-Edite o arquivo `donations-api/src/main/resources/application.properties`:
-```properties
-spring.datasource.password=SUA_SENHA_AQUI
-```
+3. **Acesse a aplicação**
+   - API: http://localhost:8080
+   - Swagger UI: http://localhost:8080/swagger-ui.html
+   - Console H2: http://localhost:8080/h2-console
+     - JDBC URL: `jdbc:h2:mem:testdb`
+     - Username: `sa`
+     - Password: `password`
 
-### 2. Executando o Backend
+## 📖 Documentação da API
 
-```bash
-# Navegar para o diretório da API
-cd donations-api
+A documentação completa da API está disponível através do Swagger UI em:
+http://localhost:8080/swagger-ui.html
 
-# Instalar dependências e executar
-mvn clean install
-mvn spring-boot:run
-```
+### Autenticação
 
-O backend estará disponível em: `http://localhost:8080`
+A API utiliza autenticação JWT. Para acessar endpoints protegidos:
 
-**✅ Verificação**: 
-- Se a aplicação iniciar sem erros e você ver logs do tipo:
+1. Faça login através do endpoint `/api/auth/login`
+2. Use o token retornado no cabeçalho `Authorization: Bearer {token}`
+
+### Exemplo de uso
+
+1. **Cadastrar usuário:**
+   ```json
+   POST /api/auth/register
+   {
+     "name": "João Silva",
+     "email": "joao@email.com",
+     "password": "senha123",
+     "phone": "11999999999",
+     "city": "São Paulo",
+     "state": "SP"
+   }
+   ```
+
+2. **Fazer login:**
+   ```json
+   POST /api/auth/login
+   {
+     "email": "joao@email.com",
+     "password": "senha123"
+   }
+   ```
+
+3. **Criar doação:**
+   ```json
+   POST /api/donations
+   Authorization: Bearer {token}
+   {
+     "title": "Roupas de inverno",
+     "description": "Casacos e blusas em bom estado",
+     "category": "Roupas",
+     "condition": "Usado - Bom estado",
+     "quantity": 5,
+     "city": "São Paulo",
+     "state": "SP"
+   }
+   ```
+
+## 🗄️ Banco de Dados
+
+### Para Desenvolvimento
+- Utiliza H2 Database em memória
+- Dados são perdidos ao reiniciar a aplicação
+- Console disponível em: http://localhost:8080/h2-console
+
+### Para Produção
+- Configure MySQL no `application.yml`
+- Altere as propriedades de datasource:
+  ```yaml
+  spring:
+    datasource:
+      url: jdbc:mysql://localhost:3306/donation_db
+      username: seu_usuario
+      password: sua_senha
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    jpa:
+      database-platform: org.hibernate.dialect.MySQLDialect
+      hibernate:
+        ddl-auto: update
   ```
-  INFO - DataInitializer: Criando usuários de teste...
-  INFO - DataInitializer: 10 usuários criados com sucesso!
-  ```
 
-Significa que o banco foi configurado corretamente!
+## 🔒 Segurança
 
-### 3. Executando o Frontend
+- Senhas são criptografadas com BCrypt
+- Autenticação via JWT com expiração de 24 horas
+- Endpoints públicos: registro, login e listagem de doações
+- Endpoints protegidos requerem token JWT válido
 
-```bash
-# Navegar para o diretório do frontend
-cd frontend
+## 📊 Status das Doações
 
-# Instalar dependências
-npm install
+- **AVAILABLE**: Disponível para solicitação
+- **RESERVED**: Reservada (solicitação aprovada)
+- **COMPLETED**: Doação concluída
+- **EXPIRED**: Doação expirada
+- **CANCELLED**: Doação cancelada
 
-# Executar em modo de desenvolvimento
-npm start
-```
+## 📝 Status dos Matches
 
-O frontend estará disponível em: `http://localhost:4200`
+- **PENDING**: Aguardando resposta do doador
+- **APPROVED**: Solicitação aprovada pelo doador
+- **REJECTED**: Solicitação rejeitada pelo doador
+- **IN_PROGRESS**: Doação em andamento
+- **COMPLETED**: Doação concluída
+- **CANCELLED**: Solicitação cancelada
 
----
+## 🤝 Contribuindo
 
-## 🎨 Funcionalidades Principais
-
-### Para Doadores
-- Cadastro e autenticação segura
-- Publicação de itens para doação
-- Filtro por localização e categoria
-- Agendamento de retirada
-- Acompanhamento do status das doações
-
-### Para Beneficiários
-- Busca por itens necessários
-- Filtro por localização e tipo de necessidade
-- Solicitação de doações
-- Acompanhamento de entregas
-
-### Para Instituições (ONGs)
-- Gestão de doações recebidas
-- Intermediação entre doadores e beneficiários
-- Relatórios de impacto
-- Divulgação de necessidades em tempo real
-
----
-
-## 🔐 Autenticação
-
-A aplicação utiliza JWT (JSON Web Tokens) para autenticação:
-
-1. **Registro/Login**: Usuário fornece credenciais
-2. **Token JWT**: Gerado e retornado na resposta
-3. **Autorização**: Token incluído no header `Authorization: Bearer <token>`
-4. **Roles**: Controle de acesso baseado em perfis (DONOR, REQUESTER, ADMIN)
-
----
-
-## 📊 Dados de Teste
-
-A aplicação inclui um sistema de inicialização automática (`DataInitializer`) que popula o banco com dados de exemplo na primeira execução:
-
-- **10 usuários** (doadores, beneficiários e admins)  
-- **5 doações** de diferentes categorias
-- **2 matches** entre doadores e beneficiários
-
-**Usuários de teste disponíveis:**
-- **João Silva Santos** - `joao.silva@email.com` / Senha: `123456` (DONOR)
-- **Maria Fernanda Costa** - `maria.costa@email.com` / Senha: `123456` (DONOR)
-- **Lúcia Maria Santos** - `lucia.santos@email.com` / Senha: `123456` (REQUESTER)
-- **Carlos Eduardo Rocha** - `carlos.rocha@email.com` / Senha: `123456` (ADMIN)
-
-**⚠️ Nota**: Os dados são criados automaticamente apenas na primeira execução. Se precisar recriar os dados, apague o banco e reinicie a aplicação.
-
----
-
-## 📚 Documentação da API (Swagger)
-
-A API inclui documentação interativa completa através do **Swagger UI**, permitindo visualizar e testar todos os endpoints disponíveis.
-
-### 🔗 Acessando o Swagger
-
-Após iniciar o backend, acesse:
-
-**Swagger UI**: `http://localhost:8080/swagger-ui/index.html`
-
-**OpenAPI JSON**: `http://localhost:8080/v3/api-docs`
-
-### 🔐 Como usar a autenticação no Swagger
-
-1. **Fazer Login**: Use o endpoint `/api/auth/login` com um dos usuários de teste
-2. **Copiar o Token**: Copie o valor do campo `token` da resposta (sem o "Bearer")
-3. **Autorizar**: Clique no botão **"Authorize"** 🔒 no topo da página
-4. **Inserir Token**: Cole o token no campo `bearerAuth` e clique em **"Authorize"**
-5. **Testar Endpoints**: Agora você pode testar endpoints protegidos
-
-### 📋 Principais Endpoints Disponíveis
-
-#### **Autenticação**
-- `POST /api/auth/register` - Registrar novo usuário
-- `POST /api/auth/login` - Fazer login e obter token JWT
-
-#### **Usuários**
-- `GET /api/users/profile` - Obter perfil do usuário logado
-- `PUT /api/users/profile` - Atualizar perfil do usuário
-
-#### **Doações**
-- `GET /api/donations` - Listar doações disponíveis
-- `POST /api/donations` - Criar nova doação
-- `GET /api/donations/{id}` - Obter detalhes de uma doação
-- `PUT /api/donations/{id}` - Atualizar doação (apenas proprietário)
-- `DELETE /api/donations/{id}` - Excluir doação (apenas proprietário)
-
-#### **Matches**
-- `POST /api/matches` - Solicitar uma doação
-- `GET /api/matches/my-requests` - Minhas solicitações
-- `GET /api/matches/my-donations` - Solicitações para minhas doações
-
-### 💡 Exemplo de Teste Rápido
-
-1. **Acesse**: `http://localhost:8080/swagger-ui/index.html`
-2. **Login**: Use `joao.silva@email.com` / `123456` no endpoint `/api/auth/login`
-3. **Autorize**: Copie o token e autorize no Swagger
-4. **Teste**: Experimente o endpoint `GET /api/donations` para ver as doações
-
----
-
-## 🤝 Contribuição
-
-Para contribuir com o projeto:
-
-1. Faça um fork do repositório
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-funcionalidade`)
-3. Commit suas mudanças (`git commit -m 'Adiciona nova funcionalidade'`)
-4. Push para a branch (`git push origin feature/nova-funcionalidade`)
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
 5. Abra um Pull Request
 
----
+## 📄 Licença
 
-## 📝 Licença
+Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
 
-Este projeto foi desenvolvido como parte do **Projeto Integrador V** do curso de **Tecnologia em Análise e Desenvolvimento de Sistemas** do **SENAC EAD**.
+## 👥 Equipe
 
----
+- Desenvolvido para o Projeto Integrador - SENAC
 
-## 📞 Contato
+## 📞 Suporte
 
-Para dúvidas ou sugestões, entre em contato com a equipe de desenvolvimento através do repositório no GitHub.
-
-**SENAC - Serviço Nacional de Aprendizagem Comercial**  
-**EAD - Ensino à Distância - 2026**
+Para dúvidas ou suporte, entre em contato através do email: contato@doacoes.com.br
